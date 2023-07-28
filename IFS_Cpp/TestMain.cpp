@@ -33,21 +33,24 @@ namespace examples
 // I am ok with typing std:: always but examples:: is to long for me.
 using namespace examples;
 
-constexpr char usage[] = "Usage: IFS.Cpp.exe <random / default> [?random: <GEN_SEED> <length>] <START_SEED>\n(START_SEED is used for the actual calculation of the data while GEN_SEED is used by the random function_collection to determine it's values)";
+constexpr char usage[] = "Usage: IFS.Cpp.exe <random / default> [?random: <GEN_SEED> <length>] <START_SEED> <append?>\n(START_SEED is used for the actual calculation of the data while GEN_SEED is used by the random function_collection to determine it's values)";
 
 int main(int argc,char *argv[])
 {
 	// From here to line 54 we just check what the user wants.
 	// TODO Implement Seeds from command line.
 
-	// The argc should be in [1, 2] (we don't count the path to the executable)
-	if (argc != 3 && argc != 5)
+	// The argc should be in [3, 5] (we don't count the path to the executable)
+
+	bool append = false;
+
+	if (argc != 5 && argc != 6)
 	{
 		std::cout << usage << std::endl;
 		return -1;
 	}
 
-	if (std::string(argv[1])._Equal("random") && argc == 5)
+	if (std::string(argv[1])._Equal("random") && argc == 6)
 	{
 		auto gen_seed_str = std::string(argv[2]);
 		auto gen_seed = std::stoul(gen_seed_str, nullptr, 0);
@@ -60,13 +63,16 @@ int main(int argc,char *argv[])
 
 		auto test = function_collection(length, start_seed, gen_seed);
 
-		//default_.~function_collection();
+		if (std::string(argv[5])._Equal("true"))
+		{
+			append = true;
+		}
 
 		default_ = test;
 		std::cout << "starting random pattern with generative seed: " << gen_seed << " and start seed: " << start_seed << std::endl;
 
 
-	} else if (!std::string(argv[1])._Equal("default") || argc != 3)
+	} else if (!std::string(argv[1])._Equal("default") || argc != 4)
 	{
 		std::cout << usage << std::endl;
 		return 1;
@@ -77,13 +83,21 @@ int main(int argc,char *argv[])
 		auto start_seed = std::stoul(start_seed_str, nullptr, 0);
 		// Set the start seed
 		default_.SEED = start_seed;
+
+		if (std::string(argv[3])._Equal("true"))
+		{
+			append = true;
+		}
 	}
 	
 
 	// Write into this file which we'll name "plot.csv"
 	std::ofstream plot;
 	// open the file, if it already exists, overwrite it.
-	plot.open("plot.csv", std::ios::out | std::ios::trunc);
+	if (!append)
+		plot.open("plot.csv", std::ios::out | std::ios::trunc);
+	else
+		plot.open("plot.csv", std::ios::out | std::ios::app);
 
 	// This number works well for 2*4k resolution when plotting it.
 	constexpr unsigned long long MAX = 20000000;
