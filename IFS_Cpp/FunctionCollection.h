@@ -15,6 +15,8 @@ public:
 	double calculate_y(double x, double y) const;
 	// Inits an IFS with the input being an array of functions and the according length.
 	function_collection(function collection[], const int length);
+	// Inits a random IFS with length length
+	function_collection(const int length);
 	// Returns a random index according to the probabilities in the collection.
 	static int pick_index(function functions[], const int length);
 	// Picks a random next index with "pick_index"

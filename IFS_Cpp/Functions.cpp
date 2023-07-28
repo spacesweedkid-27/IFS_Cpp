@@ -27,3 +27,6 @@ function::function(double a, double b, double c, double d, double e, double f, i
 	this->color[2] = color[2];
 	this->prob = prob;
 }
+// Set to default
+function::function() = default;
+

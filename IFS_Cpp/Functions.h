@@ -20,6 +20,9 @@ public:
 	static std::string arr_to_str(double* arr, int length);
 	// Constructor that initializes all values.
 	function(double a, double b, double c, double d, double e, double f, int color[3], double prop);
+	// Default constructor
+	function();
+
 	double prob;
 private:
 	// Color represented as a 3d tuple.

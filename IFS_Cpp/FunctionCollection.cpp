@@ -2,6 +2,11 @@
 #include <iostream>
 #include <sstream>
 
+// Random value between 0 and 1
+#define RANDM static_cast<double>(std::rand()) / RAND_MAX
+
+constexpr unsigned int SEED = 0;
+
 // Implements calculate x as described
 double function_collection::calculate_x(double x, double y) const
 {
@@ -18,11 +23,93 @@ double function_collection::calculate_y(double x, double y) const
 function_collection::function_collection(function *collection, const int length)
 {
 	// Start with Seed 0, if you want you can make this a parameter TODO: Make this a parameter or implement with std::cin
-	std::srand(0);
+	std::srand(SEED);
 
 	// Set the collection and length
 	this->collection = collection;
 	this->length = length;
+
+	// Make the IDE shut up 1
+	this->current_random_picked_index = 0;
+
+	// Get the first random index;
+	this->pick_own_index();
+}
+// Initializes a fully random IFS with length length
+// TODO: Maybe add (un)-fairness to lower normal distribution between probs.
+function_collection::function_collection(const int length)
+{
+	// First things first, init the seed
+	std::srand(SEED);
+
+	// I fucking hate that my IDE wants to force me to use auto
+
+	// The first thing we have to do is generate random probabilities for all functions.
+	// I just realized the way I did this in my Java approach was way too complicated.
+	// Just take length integers that have a random value between 0 and 1000 for example
+	// and then compare these values to the total sum. Et voit la, you have your probs.
+	auto* relative_prob = new int[length] {0};
+	auto* total_prob = new double[length] {0};
+	unsigned long sum = 0;
+
+	for (int i = 0; i < length; ++i)
+	{
+		// Pick values between 0 and 0x7fff
+		int random = std::rand();
+		relative_prob[i] = random;
+		sum += random;
+	}
+
+	// Now calculate the total_probabilities. After this the sum of total_prob should be 1
+	for (int i = 0; i < length; ++i)
+	{
+		total_prob[i] = static_cast<double>(relative_prob[i]) / sum;
+	}
+	// We don't need it anymore so take it, Mr (or Ms?) garbage collector.
+	delete[] relative_prob;
+
+	// Now we only have to init the random parameters for the functions.
+	auto* as = new double[length] {0};
+	auto* bs = new double[length] {0};
+	auto* cs = new double[length] {0};
+	auto* ds = new double[length] {0};
+	auto* es = new double[length] {0};
+	auto* fs = new double[length] {0};
+
+	for (int i = 0; i < length; ++i)
+	{
+		as[i] = 2 * RANDM - 1;
+		bs[i] = 2 * RANDM - 1;
+		cs[i] = 2 * RANDM - 1;
+		ds[i] = 2 * RANDM - 1;
+		es[i] = 2 * RANDM - 1;
+		fs[i] = 2 * RANDM - 1;
+	}
+
+	// Now we have everything we need
+
+	this->length = length;
+	this->collection = new function[length];
+
+	// TODO: This also has to be removed
+	int* placeholder = new int[3] {0};
+
+	for (int i = 0; i < length; ++i)
+	{
+		this->collection[i] = function(
+			as[i],
+			bs[i],
+			cs[i],
+			ds[i],
+			es[i],
+			fs[i],
+			placeholder,
+			total_prob[i]
+		);
+	}
+
+	// Make the IDE shut up 2
+	this->current_random_picked_index = 0;
 
 	// Get the first random index;
 	this->pick_own_index();
@@ -55,7 +142,7 @@ int function_collection::pick_index(function functions[], const int length)
 	// The call of std::rand() is not thread safe, so when this will be implemented with multiple threads,
 	// TODO: implement with more threads or with CUDA
 	// ... then it could perform not as wished.
-	const double random = static_cast<double>(std::rand()) / RAND_MAX;
+	const double random = RANDM;
 
 	// Now check for every direct interval in sums if random is in it.
 	// If so, return the index of this interval.
