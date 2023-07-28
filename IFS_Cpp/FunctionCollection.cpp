@@ -94,7 +94,7 @@ function_collection::function_collection(const int length,const unsigned int STA
 
 	this->length = length;
 	this->collection = new function[length];
-
+	
 	// TODO: This also has to be removed
 	int* placeholder = new int[3] {0};
 
@@ -111,6 +111,16 @@ function_collection::function_collection(const int length,const unsigned int STA
 			total_prob[i]
 		);
 	}
+
+	// Collect garbage
+	delete[] total_prob;
+	delete[] placeholder;
+	delete[] as;
+	delete[] bs;
+	delete[] cs;
+	delete[] ds;
+	delete[] es;
+	delete[] fs;
 
 	// Make the IDE shut up 2
 	this->current_random_picked_index = 0;
@@ -157,9 +167,12 @@ int function_collection::pick_index(function functions[], const int length)
 	// If so, return the index of this interval.
 	for (int i = 0; i < length + 1; i++) {
 		if (sums[i] < random && random < sums[i + 1]) {
+			delete[] sums;
 			return i;
 		}
 	}
+
+	delete[] sums;
 
 	// Return 0 in case of bit error or if I forgot something.
 	return 0;

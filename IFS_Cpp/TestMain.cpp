@@ -59,8 +59,13 @@ int main(int argc,char *argv[])
 		auto start_seed = std::stoul(start_seed_str, nullptr, 0);
 
 		auto test = function_collection(length, start_seed, gen_seed);
+
+		//default_.~function_collection();
+
 		default_ = test;
 		std::cout << "starting random pattern with generative seed: " << gen_seed << " and start seed: " << start_seed << std::endl;
+
+
 	} else if (!std::string(argv[1])._Equal("default") || argc != 3)
 	{
 		std::cout << usage << std::endl;
