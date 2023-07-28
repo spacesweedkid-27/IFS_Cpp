@@ -18,10 +18,11 @@ double function_collection::calculate_y(double x, double y) const
 	return this->collection[current_random_picked_index].calculate_y(x, y);
 }
 // Sets collection and length as described
-function_collection::function_collection(function *collection, const int length, const unsigned int SEED)
+// START_SEED is the seed that the IFS will start at.
+function_collection::function_collection(function *collection, const int length, const unsigned int START_SEED)
 {
-	// Set the seed
-	this->SEED = SEED;
+	// Set the start seed
+	this->SEED = START_SEED;
 	// Use the seed
 	std::srand(SEED);
 
@@ -36,11 +37,12 @@ function_collection::function_collection(function *collection, const int length,
 	this->pick_own_index();
 }
 // Initializes a fully random IFS with length length
+// START_SEED is the seed that the IFS will start at while GEN_SEED is the seed used to generate the random IFS.
 // TODO: Maybe add (un)-fairness to lower normal distribution between probs.
-function_collection::function_collection(const int length,const unsigned int SEED)
+function_collection::function_collection(const int length,const unsigned int START_SEED, const unsigned int GEN_SEED)
 {
-	// Set the seed
-	this->SEED = SEED;
+	// Set the generative seed
+	this->SEED = GEN_SEED;
 	// Use the seed
 	std::srand(SEED);
 
@@ -112,6 +114,11 @@ function_collection::function_collection(const int length,const unsigned int SEE
 
 	// Make the IDE shut up 2
 	this->current_random_picked_index = 0;
+
+	// Set the start seed for calculation
+	this->SEED = START_SEED;
+	// Use the seed
+	std::srand(SEED);
 
 	// Get the first random index;
 	this->pick_own_index();

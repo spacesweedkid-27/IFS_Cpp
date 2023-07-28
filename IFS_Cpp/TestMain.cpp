@@ -33,31 +33,45 @@ namespace examples
 // I am ok with typing std:: always but examples:: is to long for me.
 using namespace examples;
 
-constexpr char usage[] = "Usage: IFS.Cpp.exe <random / default> [?random: <SEED>]";
+constexpr char usage[] = "Usage: IFS.Cpp.exe <random / default> [?random: <GEN_SEED> <length>] <START_SEED>\n(START_SEED is used for the actual calculation of the data while GEN_SEED is used by the random function_collection to determine it's values)";
 
 int main(int argc,char *argv[])
 {
 	// From here to line 54 we just check what the user wants.
 	// TODO Implement Seeds from command line.
 
-	if (argc < 2 || argc > 3)
+	// The argc should be in [1, 2] (we don't count the path to the executable)
+	if (argc != 3 && argc != 5)
 	{
 		std::cout << usage << std::endl;
 		return -1;
 	}
 
-	if (std::string(argv[1])._Equal("random"))
+	if (std::string(argv[1])._Equal("random") && argc == 5)
 	{
-		auto seed_str = std::string(argv[2]);
-		auto seed = std::stoul(seed_str, nullptr, 0);
+		auto gen_seed_str = std::string(argv[2]);
+		auto gen_seed = std::stoul(gen_seed_str, nullptr, 0);
 
-		auto test = function_collection(4, seed);
+		auto length_str = std::string(argv[3]);
+		auto length = std::stoul(length_str, nullptr, 0);
+
+		auto start_seed_str = std::string(argv[4]);
+		auto start_seed = std::stoul(start_seed_str, nullptr, 0);
+
+		auto test = function_collection(length, start_seed, gen_seed);
 		default_ = test;
-		std::cout << "starting random pattern with seed: " << seed << std::endl;
-	} else if (!std::string(argv[1])._Equal("default"))
+		std::cout << "starting random pattern with generative seed: " << gen_seed << " and start seed: " << start_seed << std::endl;
+	} else if (!std::string(argv[1])._Equal("default") || argc != 3)
 	{
 		std::cout << usage << std::endl;
 		return 1;
+	}
+	else
+	{
+		auto start_seed_str = std::string(argv[2]);
+		auto start_seed = std::stoul(start_seed_str, nullptr, 0);
+		// Set the start seed
+		default_.SEED = start_seed;
 	}
 	
 

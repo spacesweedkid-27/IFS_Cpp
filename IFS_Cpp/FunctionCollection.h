@@ -14,9 +14,9 @@ public:
 	// Calculates the y-value of the next position
 	double calculate_y(double x, double y) const;
 	// Inits an IFS with the input being an array of functions and the according length.
-	function_collection(function collection[], const int length, const unsigned int SEED);
+	function_collection(function collection[], const int length, const unsigned int START_SEED);
 	// Inits a random IFS with length length
-	function_collection(const int length, const unsigned int SEED);
+	function_collection(const int length, const unsigned int START_SEED, const unsigned int GEN_SEED);
 	// Returns a random index according to the probabilities in the collection.
 	static int pick_index(function functions[], const int length);
 	// Picks a random next index with "pick_index"
