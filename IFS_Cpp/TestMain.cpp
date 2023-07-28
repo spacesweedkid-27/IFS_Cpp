@@ -1,6 +1,7 @@
 #include "FunctionCollection.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
 // SKIP TO LINE 34 for the main
 
@@ -26,31 +27,36 @@ namespace examples
 		function(-0.15, 0.28, 0.26, 0.24, 0, 0.44, &(colors::GREEN[0]), 0.07)
 	};
 	// As function_collection object
-	function_collection default_ = function_collection(default__, 4);
+	function_collection default_ = function_collection(default__, 4, 0);
 }
 
 // I am ok with typing std:: always but examples:: is to long for me.
 using namespace examples;
+
+constexpr char usage[] = "Usage: IFS.Cpp.exe <random / default> [?random: <SEED>]";
 
 int main(int argc,char *argv[])
 {
 	// From here to line 54 we just check what the user wants.
 	// TODO Implement Seeds from command line.
 
-	if (argc != 2)
+	if (argc < 2 || argc > 3)
 	{
-		std::cout << "Usage: IFS.Cpp.exe <random / default>" << std::endl;
+		std::cout << usage << std::endl;
 		return -1;
 	}
 
 	if (std::string(argv[1])._Equal("random"))
 	{
-		auto test = function_collection(4);
+		auto seed_str = std::string(argv[2]);
+		auto seed = std::stoul(seed_str, nullptr, 0);
+
+		auto test = function_collection(4, seed);
 		default_ = test;
-		std::cout << "starting random pattern" << std::endl;
+		std::cout << "starting random pattern with seed: " << seed << std::endl;
 	} else if (!std::string(argv[1])._Equal("default"))
 	{
-		std::cout << "Usage: IFS.Cpp.exe <random / default>" << std::endl;
+		std::cout << usage << std::endl;
 		return 1;
 	}
 	

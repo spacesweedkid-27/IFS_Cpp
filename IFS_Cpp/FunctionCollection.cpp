@@ -3,9 +3,7 @@
 #include <sstream>
 
 // Random value between 0 and 1
-#define RANDM static_cast<double>(std::rand()) / RAND_MAX
-
-constexpr unsigned int SEED = 0;
+#define RANDM (static_cast<double>(std::rand()) / RAND_MAX)
 
 // Implements calculate x as described
 double function_collection::calculate_x(double x, double y) const
@@ -20,9 +18,11 @@ double function_collection::calculate_y(double x, double y) const
 	return this->collection[current_random_picked_index].calculate_y(x, y);
 }
 // Sets collection and length as described
-function_collection::function_collection(function *collection, const int length)
+function_collection::function_collection(function *collection, const int length, const unsigned int SEED)
 {
-	// Start with Seed 0, if you want you can make this a parameter TODO: Make this a parameter or implement with std::cin
+	// Set the seed
+	this->SEED = SEED;
+	// Use the seed
 	std::srand(SEED);
 
 	// Set the collection and length
@@ -37,9 +37,11 @@ function_collection::function_collection(function *collection, const int length)
 }
 // Initializes a fully random IFS with length length
 // TODO: Maybe add (un)-fairness to lower normal distribution between probs.
-function_collection::function_collection(const int length)
+function_collection::function_collection(const int length,const unsigned int SEED)
 {
-	// First things first, init the seed
+	// Set the seed
+	this->SEED = SEED;
+	// Use the seed
 	std::srand(SEED);
 
 	// I fucking hate that my IDE wants to force me to use auto
