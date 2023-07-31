@@ -17,6 +17,4 @@ https://www.mediafire.com/file/6171pcfa3ohihrn/plot.zip/file contains a zip of m
 
 When you plot your first IFS's you'll see...
 
-TODO: I think I will implement a faster way to calculate everything by first storing every "hit" in a double array and then either compressing this before writing to the plot-data or by calculating the non-white portions of the int[][] in the java file from this double array. Writing so much data just slows everything so much down. But if you want precise data, you have to do this with this bottleneck. If you want fast good-looking pictures and not "scientific" data you can plot yourself, the second option is better. \
-In the 2-year-old Java version it was like the second approach. There was no output plot.csv and the image was created while the program was rendering it. This of course makes it so that if you want to have a good look at your plot you have to rerender everything, but I think there is a world of both solutions. \
-Test with a cheap implementation of the second approach and then when getting the HQ-renders, do the thing with the first approach.
+TODO: Maybe add rotation.
