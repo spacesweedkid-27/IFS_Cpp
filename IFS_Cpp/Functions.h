@@ -1,5 +1,4 @@
 #pragma once
-#include <xstring>
 
 /*
 	Class representing a function of an IFS.
@@ -15,20 +14,13 @@ public:
 	double calculate_x(double x, double y) const;
 	// Calculates the next y when this function is picked
 	double calculate_y(double x, double y) const;
-	// TODO: Used for debugging, unused and has to be removed
-	// Returns a string representation of a double array
-	static std::string arr_to_str(double* arr, int length);
 	// Constructor that initializes all values.
-	function(double a, double b, double c, double d, double e, double f, int color[3], double prop);
+	function(double a, double b, double c, double d, double e, double f, double prop);
 	// Default constructor
 	function();
 
 	double prob;
 private:
-	// Color represented as a 3d tuple.
-	// TODO: Implement as normal integer like in Java.Color.getRGB()
-	int color[3]{};
-
 	// The following are the parameters for the calculation of x and y
 
 	double a;

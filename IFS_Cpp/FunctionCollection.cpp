@@ -1,6 +1,5 @@
 #include "FunctionCollection.h"
 #include <iostream>
-#include <sstream>
 
 // Random value between 0 and 1
 #define RANDM (static_cast<double>(std::rand()) / RAND_MAX)
@@ -94,9 +93,7 @@ function_collection::function_collection(const int length,const unsigned int STA
 
 	this->length = length;
 	this->collection = new function[length];
-	
-	// TODO: This also has to be removed
-	int* placeholder = new int[3] {0};
+
 
 	for (int i = 0; i < length; ++i)
 	{
@@ -107,14 +104,12 @@ function_collection::function_collection(const int length,const unsigned int STA
 			ds[i],
 			es[i],
 			fs[i],
-			placeholder,
 			total_prob[i]
 		);
 	}
 
 	// Collect garbage
 	delete[] total_prob;
-	delete[] placeholder;
 	delete[] as;
 	delete[] bs;
 	delete[] cs;
@@ -183,27 +178,4 @@ void function_collection::pick_own_index()
 	// Pretty simple, just pick_index of this and refresh the current one.
 	this->current_random_picked_index = pick_index(this->collection, this->length);
 	//std::cout << this->current_random_picked_index << std::endl;
-}
-
-
-// Not used, but useful for debugging.
-// TODO: Marked for deletion
-std::string function::arr_to_str(double* arr, int length)
-{
-	std::string temp = "[";
-
-	for (int i = 0; i < length; ++i)
-	{
-		// Init string-buffer
-		std::ostringstream strs;
-		// Insert the double
-		strs << arr[i];
-		// Convert to string and append
-		temp.append(strs.str() + ", ");
-	}
-	// Remove the last ", "
-	temp.resize(temp.size() - 2);
-	temp.append("]");
-
-	return temp;
 }

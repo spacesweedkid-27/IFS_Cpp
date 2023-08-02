@@ -13,7 +13,7 @@ double function::calculate_y(double x, double y) const
 	return c * x + d * y + f;
 }
 // Implements the constructor described in Functions.h
-function::function(double a, double b, double c, double d, double e, double f, int color[3], double prob)
+function::function(double a, double b, double c, double d, double e, double f, double prob)
 {
 	// Just set all attributes of the object.
 	this->a = a;
@@ -22,9 +22,6 @@ function::function(double a, double b, double c, double d, double e, double f, i
 	this->d = d;
 	this->e = e;
 	this->f = f;
-	this->color[0] = color[0];
-	this->color[1] = color[1];
-	this->color[2] = color[2];
 	this->prob = prob;
 }
 // Set to default
