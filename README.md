@@ -1,8 +1,4 @@
-# IFS_Cpp
-I made basically the same project 2 years ago in school, so I did it again, but a bit cleaner and (hopefully) way faster, because it's in Cpp and not Java.
+### IFS_Cpp
+Creates iterative function sytems and subsequent plots which can be exported to png format.
 
-Creates IFS's and generates data from them, and plots them in ppm format directly or in png format if exported (very slow)
-
-When you plot your first IFS's you'll see...
-
-TODO: Maybe add rotation.
+I made the same project 2021 in school, so I did it faster in 2023!
